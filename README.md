@@ -11,9 +11,7 @@
 
 CarRental is a Windows Forms desktop application developed as a school project for the **Programming 1** course. It provides a complete solution for managing a car rental business, including vehicle inventory, customer records, reservations, and payments.
 
-<img width="1920" height="1036" alt="image" src="https://github.com/user-attachments/assets/c2dcd4c7-2289-43cb-94a9-d965aa06426f" />
-<img width="1920" height="1036" alt="image" src="https://github.com/user-attachments/assets/aa475e48-3178-41f4-bace-6e7197fa8f13" />
-<img width="1920" height="1039" alt="image" src="https://github.com/user-attachments/assets/108d9c8c-e62c-41fb-8f12-95a9f678e8ed" />
+
 
 
 ## ✨ Features
@@ -107,11 +105,12 @@ The database is automatically created on first launch.
 ## 📸 Screenshots
 
 > Add your screenshots here showing:
-> - Login screen
-> - Main dashboard
-> - Car management
-> - Reservation dialog
-> - Statistics view
+<img width="416" height="537" alt="image" src="https://github.com/user-attachments/assets/e3f4ad65-6077-4af3-997d-1e22df40d283" />
+<img width="1919" height="1036" alt="image" src="https://github.com/user-attachments/assets/7d911b74-2183-4527-acab-d6391efcc33c" />
+<img width="1920" height="1035" alt="image" src="https://github.com/user-attachments/assets/c206b489-c4e7-4bcd-9216-2119f445485c" />
+<img width="687" height="643" alt="image" src="https://github.com/user-attachments/assets/e2be4f75-9d71-40c9-a9e3-4d8db60fd196" />
+<img width="1920" height="1035" alt="image" src="https://github.com/user-attachments/assets/f88b2f87-3950-417c-ad1b-2d146bf5e757" />
+
 
 ## 🎓 Learning Outcomes
 
