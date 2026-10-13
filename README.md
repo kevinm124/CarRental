@@ -1,1 +1,156 @@
-# CarRental
+# 🚗 CarRental
+
+> A desktop application for managing car rental operations, built with C# Windows Forms and SQLite.
+
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=.net&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+## 📋 About
+
+CarRental is a Windows Forms desktop application developed as a school project for the **Programming 1** course. It provides a complete solution for managing a car rental business, including vehicle inventory, customer records, reservations, and payments.
+
+<img width="1920" height="1036" alt="image" src="https://github.com/user-attachments/assets/c2dcd4c7-2289-43cb-94a9-d965aa06426f" />
+<img width="1920" height="1036" alt="image" src="https://github.com/user-attachments/assets/aa475e48-3178-41f4-bace-6e7197fa8f13" />
+<img width="1920" height="1039" alt="image" src="https://github.com/user-attachments/assets/108d9c8c-e62c-41fb-8f12-95a9f678e8ed" />
+
+
+## ✨ Features
+
+- 🔐 **Secure login** with BCrypt password hashing
+- 🚙 **Car management** with image uploads and status tracking
+- 👥 **Customer registration** with search and filtering
+- 📅 **Reservation system** with automatic price calculation
+- 💰 **Payment tracking** with real-time statistics
+- 📊 **Dashboard** showing business metrics and popular cars
+- 🔍 **Search and filtering** across all data tables
+- 🎨 **Modern Material Design UI** via MaterialSkin library
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **C#** | Programming language |
+| **.NET Framework 4.8** | Runtime |
+| **Windows Forms** | GUI framework |
+| **SQLite** | Local database |
+| **MaterialSkin.2** | Modern UI styling |
+| **BCrypt.Net-Next** | Password hashing |
+
+## 📁 Project Structure
+
+```
+CarRental/
+├── Obrazci/          # Windows Forms (UI)
+│   ├── PrijavaObrazec.cs
+│   ├── GlavniObrazec.cs
+│   ├── AvtomobiliObrazec.cs
+│   ├── StrankeObrazec.cs
+│   ├── RezervacijeObrazec.cs
+│   ├── PlacilaObrazec.cs
+│   └── DashboardObrazec.cs
+├── Baza/             # Database connection
+│   └── PovezavaBaze.cs
+├── Modeli/           # Data models
+│   ├── Avtomobil.cs
+│   ├── Stranka.cs
+│   ├── Rezervacija.cs
+│   └── Placilo.cs
+├── Pomocniki/        # Helper classes
+└── Slike/            # Car images
+    └── avtomobili/
+```
+
+## 🗄️ Database Schema
+
+The SQLite database (`izposoja.db`) contains 6 interconnected tables:
+
+- `kategorije` — Car categories (Economy, SUV, Luxury)
+- `avtomobili` — Cars with details and image paths
+- `stranke` — Customers
+- `zaposleni` — Employees (for login)
+- `rezervacije` — Reservations linking customers and cars
+- `placila` — Payments linked to reservations
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Visual Studio 2022 (Community Edition is fine)
+- .NET Framework 4.8
+- Windows 10/11
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kevinm124/CarRental.git
+   ```
+
+2. **Open the solution**
+   - Open `CarRental.sln` in Visual Studio 2022
+
+3. **Restore NuGet packages**
+   - Right-click on Solution → **Restore NuGet Packages**
+
+4. **Build and run**
+   - Press `F5` or click **Start**
+
+### Default Login
+
+- **Email:** `admin@izposoja.si`
+- **Password:** `admin123`
+
+The database is automatically created on first launch.
+
+## 📸 Screenshots
+
+> Add your screenshots here showing:
+> - Login screen
+> - Main dashboard
+> - Car management
+> - Reservation dialog
+> - Statistics view
+
+## 🎓 Learning Outcomes
+
+Through this project, I gained hands-on experience with:
+
+- Object-oriented programming in C#
+- Windows Forms development and event-driven programming
+- SQLite database design and SQL queries
+- File system operations (image handling)
+- Password security with BCrypt hashing
+- Third-party library integration (MaterialSkin)
+- Working with AI tools for development assistance
+
+## 🐛 Known Issues / Future Improvements
+
+- [ ] PDF invoice generation
+- [ ] Excel export functionality
+- [ ] Revenue charts by month
+- [ ] Dark mode toggle
+- [ ] Multi-language support
+
+## 📝 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+
+**Kevin Markoja**
+
+- School: Ekonomska šola Murska Sobota, Višja strokovna šola
+- Program: Informatika in računalništvo
+- Course: Programming 1
+
+## 🙏 Acknowledgments
+
+- **Claude AI** — For assistance with the V2 upgrade and advanced features
+- **MaterialSkin** by leocb — For the modern UI library
+- **System.Data.SQLite** — For the database engine
+
+---
+
+⭐ If you found this project helpful or interesting, consider giving it a star!
