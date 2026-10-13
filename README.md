@@ -103,13 +103,11 @@ The SQLite database (`izposoja.db`) contains 6 interconnected tables:
 The database is automatically created on first launch.
 
 ## 📸 Screenshots
-
-> Add your screenshots here showing:
-<img width="416" height="537" alt="image" src="https://github.com/user-attachments/assets/e3f4ad65-6077-4af3-997d-1e22df40d283" />
-<img width="1919" height="1036" alt="image" src="https://github.com/user-attachments/assets/7d911b74-2183-4527-acab-d6391efcc33c" />
-<img width="1920" height="1035" alt="image" src="https://github.com/user-attachments/assets/c206b489-c4e7-4bcd-9216-2119f445485c" />
-<img width="687" height="643" alt="image" src="https://github.com/user-attachments/assets/e2be4f75-9d71-40c9-a9e3-4d8db60fd196" />
-<img width="1920" height="1035" alt="image" src="https://github.com/user-attachments/assets/f88b2f87-3950-417c-ad1b-2d146bf5e757" />
+<img width="420" height="500" alt="image" src="https://github.com/user-attachments/assets/e3f4ad65-6077-4af3-997d-1e22df40d283" />
+<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/7d911b74-2183-4527-acab-d6391efcc33c" />
+<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/c206b489-c4e7-4bcd-9216-2119f445485c" />
+<img width="690" height="640" alt="image" src="https://github.com/user-attachments/assets/e2be4f75-9d71-40c9-a9e3-4d8db60fd196" />
+<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/f88b2f87-3950-417c-ad1b-2d146bf5e757" />
 
 
 ## 🎓 Learning Outcomes
