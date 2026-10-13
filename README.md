@@ -103,11 +103,32 @@ The SQLite database (`izposoja.db`) contains 6 interconnected tables:
 The database is automatically created on first launch.
 
 ## 📸 Screenshots
-<img width="420" height="500" alt="image" src="https://github.com/user-attachments/assets/e3f4ad65-6077-4af3-997d-1e22df40d283" />
-<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/7d911b74-2183-4527-acab-d6391efcc33c" />
-<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/c206b489-c4e7-4bcd-9216-2119f445485c" />
-<img width="690" height="640" alt="image" src="https://github.com/user-attachments/assets/e2be4f75-9d71-40c9-a9e3-4d8db60fd196" />
-<img width="1920" height="1000" alt="image" src="https://github.com/user-attachments/assets/f88b2f87-3950-417c-ad1b-2d146bf5e757" />
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/e3f4ad65-6077-4af3-997d-1e22df40d283" width="400" />
+      <br />
+      <sub><b>🔐 Login Screen</b></sub>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/e2be4f75-9d71-40c9-a9e3-4d8db60fd196" width="400" />
+      <br />
+      <sub><b>➕ Add New Car</b></sub>
+    </td>
+  </tr>
+</table>
+
+### 📊 Full Application Views
+
+<img src="https://github.com/user-attachments/assets/7d911b74-2183-4527-acab-d6391efcc33c" width="100%" />
+<p align="center"><sub><b>Dashboard with Statistics</b></sub></p>
+
+<img src="https://github.com/user-attachments/assets/c206b489-c4e7-4bcd-9216-2119f445485c" width="100%" />
+<p align="center"><sub><b>Car Management</b></sub></p>
+
+<img src="https://github.com/user-attachments/assets/f88b2f87-3950-417c-ad1b-2d146bf5e757" width="100%" />
+<p align="center"><sub><b>Customers View</b></sub></p>
 
 
 ## 🎓 Learning Outcomes
