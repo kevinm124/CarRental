@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F0F596D3-EB26-4351-9A21-ED6F76C250F2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>CarRental</RootNamespace>
+    <AssemblyName>CarRental</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.2.0\lib\net48\BCrypt-Net-Next.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialSkin, Version=2.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.2.2.3.1\lib\net48\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.119.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Baza\PovezavaBaze.cs" />
+    <Compile Include="Modeli\Avtomobil.cs" />
+    <Compile Include="Modeli\Kategorija.cs" />
+    <Compile Include="Modeli\Placilo.cs" />
+    <Compile Include="Modeli\Rezervacija.cs" />
+    <Compile Include="Modeli\Stranka.cs" />
+    <Compile Include="Modeli\Zaposleni.cs" />
+    <Compile Include="Obrazci\AvtomobiliObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\AvtomobiliObrazec.Designer.cs">
+      <DependentUpon>AvtomobiliObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\DashboardObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\DashboardObrazec.Designer.cs">
+      <DependentUpon>DashboardObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\DodajPlaciloObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\DodajPlaciloObrazec.Designer.cs">
+      <DependentUpon>DodajPlaciloObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\DodajUrediAvtomobilObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\DodajUrediAvtomobilObrazec.Designer.cs">
+      <DependentUpon>DodajUrediAvtomobilObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\DodajUrediStrankoObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\DodajUrediStrankoObrazec.Designer.cs">
+      <DependentUpon>DodajUrediStrankoObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\GlavniObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\GlavniObrazec.Designer.cs">
+      <DependentUpon>GlavniObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\NovaRezervacijaObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\NovaRezervacijaObrazec.Designer.cs">
+      <DependentUpon>NovaRezervacijaObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\PlacilaObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\PlacilaObrazec.Designer.cs">
+      <DependentUpon>PlacilaObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\PrijavaObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\PrijavaObrazec.Designer.cs">
+      <DependentUpon>PrijavaObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\RezervacijeObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\RezervacijeObrazec.Designer.cs">
+      <DependentUpon>RezervacijeObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Obrazci\StrankeObrazec.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Obrazci\StrankeObrazec.Designer.cs">
+      <DependentUpon>StrankeObrazec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Obrazci\AvtomobiliObrazec.resx">
+      <DependentUpon>AvtomobiliObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\DashboardObrazec.resx">
+      <DependentUpon>DashboardObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\DodajPlaciloObrazec.resx">
+      <DependentUpon>DodajPlaciloObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\DodajUrediAvtomobilObrazec.resx">
+      <DependentUpon>DodajUrediAvtomobilObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\DodajUrediStrankoObrazec.resx">
+      <DependentUpon>DodajUrediStrankoObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\GlavniObrazec.resx">
+      <DependentUpon>GlavniObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\NovaRezervacijaObrazec.resx">
+      <DependentUpon>NovaRezervacijaObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\PlacilaObrazec.resx">
+      <DependentUpon>PlacilaObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\PrijavaObrazec.resx">
+      <DependentUpon>PrijavaObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\RezervacijeObrazec.resx">
+      <DependentUpon>RezervacijeObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Obrazci\StrankeObrazec.resx">
+      <DependentUpon>StrankeObrazec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pomocniki\" />
+    <Folder Include="Slike\avtomobili\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gemini_Generated_Image_7tt8ae7tt8ae7tt8.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
+  </Target>
+</Project>
