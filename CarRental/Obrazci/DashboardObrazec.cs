@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
 using CarRental.Baza;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class DashboardObrazec : Form
+    public partial class DashboardObrazec : OsnovniObrazec
     {
         public DashboardObrazec()
         {
@@ -18,6 +20,128 @@ namespace CarRental.Obrazci
             NaloziStatistike();
             NaloziZadnjeRezervacije();
             NaloziPopularneAvtomobile();
+            DodajOpozorilaInGrafe();
+        }
+
+        // V3: vrstica z opozorili in dva grafa med karticami in tabelami
+        private void DodajOpozorilaInGrafe()
+        {
+            var opozorila = new List<string>();
+            int servisi = ServisPomocnik.PrihajajociServisi(Nastavitve.ServisOpozoriloDni).Rows.Count;
+            if (servisi > 0)
+                opozorila.Add(Jezik.T("🔧 Servis potreben: {0}", servisi));
+
+            using (var povezava = PovezavaBaze.PridobiPovezavo())
+            {
+                povezava.Open();
+                using (var ukaz = new SQLiteCommand("SELECT COUNT(*) FROM poskodbe WHERE status = 'odprta'", povezava))
+                {
+                    int poskodbe = Convert.ToInt32(ukaz.ExecuteScalar());
+                    if (poskodbe > 0)
+                        opozorila.Add(Jezik.T("⚠ Odprte poškodbe: {0}", poskodbe));
+                }
+                using (var ukaz = new SQLiteCommand(
+                    "SELECT COUNT(*) FROM rezervacije WHERE status = 'aktivna' AND datum_do = @danes", povezava))
+                {
+                    ukaz.Parameters.AddWithValue("@danes", DateTime.Today.ToString("yyyy-MM-dd"));
+                    int vrnitve = Convert.ToInt32(ukaz.ExecuteScalar());
+                    if (vrnitve > 0)
+                        opozorila.Add(Jezik.T("🚗 Danes se vrne vozil: {0}", vrnitve));
+                }
+                using (var ukaz = new SQLiteCommand(
+                    "SELECT COUNT(*) FROM rezervacije WHERE status = 'aktivna' AND datum_do < @danes", povezava))
+                {
+                    ukaz.Parameters.AddWithValue("@danes", DateTime.Today.ToString("yyyy-MM-dd"));
+                    int zamujene = Convert.ToInt32(ukaz.ExecuteScalar());
+                    if (zamujene > 0)
+                        opozorila.Add(Jezik.T("⏰ Zamujene vrnitve: {0}", zamujene));
+                }
+            }
+
+            var panelOpozorila = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 44,
+                Padding = new Padding(15, 0, 15, 8),
+                Visible = opozorila.Count > 0
+            };
+            var lblOpozorila = new Label
+            {
+                Dock = DockStyle.Fill,
+                Text = string.Join("     ", opozorila),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(130, 80, 0),
+                BackColor = Color.FromArgb(255, 243, 205),
+                Padding = new Padding(12, 0, 0, 0)
+            };
+            panelOpozorila.Controls.Add(lblOpozorila);
+
+            // Grafa: prihodki in število rezervacij v zadnjih 12 mesecih
+            var meseci = GrafPomocnik.ZadnjiMeseci(12);
+            var prihodki = new Dictionary<string, double>();
+            var rezervacije = new Dictionary<string, double>();
+            foreach (var m in meseci)
+            {
+                prihodki[m.ToString("yyyy-MM")] = 0;
+                rezervacije[m.ToString("yyyy-MM")] = 0;
+            }
+
+            using (var povezava = PovezavaBaze.PridobiPovezavo())
+            {
+                povezava.Open();
+                string od = meseci[0].ToString("yyyy-MM-dd");
+                using (var ukaz = new SQLiteCommand(@"SELECT substr(datum_placila, 1, 7) AS mesec, SUM(znesek) AS vsota
+                        FROM placila WHERE status = 'placano' AND datum_placila >= @od GROUP BY mesec", povezava))
+                {
+                    ukaz.Parameters.AddWithValue("@od", od);
+                    using (var b = ukaz.ExecuteReader())
+                        while (b.Read())
+                            if (prihodki.ContainsKey(b["mesec"].ToString()))
+                                prihodki[b["mesec"].ToString()] = Convert.ToDouble(b["vsota"]);
+                }
+                using (var ukaz = new SQLiteCommand(@"SELECT substr(datum_od, 1, 7) AS mesec, COUNT(*) AS st
+                        FROM rezervacije WHERE status <> 'preklicana' AND datum_od >= @od GROUP BY mesec", povezava))
+                {
+                    ukaz.Parameters.AddWithValue("@od", od);
+                    using (var b = ukaz.ExecuteReader())
+                        while (b.Read())
+                            if (rezervacije.ContainsKey(b["mesec"].ToString()))
+                                rezervacije[b["mesec"].ToString()] = Convert.ToDouble(b["st"]);
+                }
+            }
+
+            var tockePrihodki = new List<KeyValuePair<string, double>>();
+            var tockeRezervacije = new List<KeyValuePair<string, double>>();
+            foreach (var m in meseci)
+            {
+                tockePrihodki.Add(new KeyValuePair<string, double>(GrafPomocnik.OznakaMeseca(m), prihodki[m.ToString("yyyy-MM")]));
+                tockeRezervacije.Add(new KeyValuePair<string, double>(GrafPomocnik.OznakaMeseca(m), rezervacije[m.ToString("yyyy-MM")]));
+            }
+
+            var grafPrihodki = GrafPomocnik.Ustvari("Prihodki po mesecih (€)");
+            GrafPomocnik.Stolpci(grafPrihodki, "Prihodki", tockePrihodki, Tema.Modra, "N0");
+            var grafRezervacije = GrafPomocnik.Ustvari("Rezervacije po mesecih");
+            GrafPomocnik.Crta(grafRezervacije, "Rezervacije", tockeRezervacije, Tema.Zelena);
+
+            var mreza = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
+            mreza.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            mreza.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            grafPrihodki.Margin = new Padding(0, 0, 8, 0);
+            grafRezervacije.Margin = new Padding(8, 0, 0, 0);
+            mreza.Controls.Add(grafPrihodki, 0, 0);
+            mreza.Controls.Add(grafRezervacije, 1, 0);
+
+            var panelGrafi = new Panel { Dock = DockStyle.Top, Height = 270, Padding = new Padding(15, 0, 15, 15) };
+            panelGrafi.Controls.Add(mreza);
+
+            // Vrstni red sidranja: kartice, opozorila, grafi, tabele
+            Controls.Add(panelGrafi);
+            Controls.Add(panelOpozorila);
+            Controls.SetChildIndex(panelGlavno, 0);
+            Controls.SetChildIndex(panelGrafi, 1);
+            Controls.SetChildIndex(panelOpozorila, 2);
+            Controls.SetChildIndex(panelKartice, 3);
         }
 
         private void NastaviDataGridView(DataGridView dgv)
