@@ -5,7 +5,7 @@ using CarRental.Baza;
 
 namespace CarRental.Obrazci
 {
-    public partial class DodajPlaciloObrazec : Form
+    public partial class DodajPlaciloObrazec : OsnovniObrazec
     {
         // Razred za hranjenje rezervacije v ComboBox-u
         private class RezervacijaItem

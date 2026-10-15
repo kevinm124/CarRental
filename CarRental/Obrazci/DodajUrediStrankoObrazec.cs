@@ -7,7 +7,7 @@ using CarRental.Modeli;
 
 namespace CarRental.Obrazci
 {
-    public partial class DodajUrediStrankoObrazec : Form
+    public partial class DodajUrediStrankoObrazec : OsnovniObrazec
     {
         private Stranka strankaZaUrejanje;
         private bool jeUrejanje => strankaZaUrejanje != null;

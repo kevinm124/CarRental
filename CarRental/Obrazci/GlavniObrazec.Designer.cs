@@ -39,6 +39,14 @@
             this.btnRezervacije = new System.Windows.Forms.Button();
             this.btnPlacila = new System.Windows.Forms.Button();
             this.btnOdjava = new System.Windows.Forms.Button();
+            this.btnKoledar = new System.Windows.Forms.Button();
+            this.btnServisi = new System.Windows.Forms.Button();
+            this.btnPoskodbe = new System.Windows.Forms.Button();
+            this.btnPorocila = new System.Windows.Forms.Button();
+            this.btnUporabniki = new System.Windows.Forms.Button();
+            this.btnNastavitve = new System.Windows.Forms.Button();
+            this.btnTema = new System.Windows.Forms.Button();
+            this.btnJezik = new System.Windows.Forms.Button();
             this.lblNaslovStrani = new System.Windows.Forms.Label();
             this.lblUporabnik = new System.Windows.Forms.Label();
             this.panelSeparator = new System.Windows.Forms.Panel();
@@ -53,6 +61,12 @@
             // 
             this.panelNavigacija.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.panelNavigacija.Controls.Add(this.btnOdjava);
+            this.panelNavigacija.Controls.Add(this.btnNastavitve);
+            this.panelNavigacija.Controls.Add(this.btnUporabniki);
+            this.panelNavigacija.Controls.Add(this.btnPorocila);
+            this.panelNavigacija.Controls.Add(this.btnPoskodbe);
+            this.panelNavigacija.Controls.Add(this.btnServisi);
+            this.panelNavigacija.Controls.Add(this.btnKoledar);
             this.panelNavigacija.Controls.Add(this.btnPlacila);
             this.panelNavigacija.Controls.Add(this.btnRezervacije);
             this.panelNavigacija.Controls.Add(this.btnStranke);
@@ -79,6 +93,8 @@
             // panelVrh
             // 
             this.panelVrh.BackColor = System.Drawing.Color.White;
+            this.panelVrh.Controls.Add(this.btnJezik);
+            this.panelVrh.Controls.Add(this.btnTema);
             this.panelVrh.Controls.Add(this.panelSeparator);
             this.panelVrh.Controls.Add(this.lblUporabnik);
             this.panelVrh.Controls.Add(this.lblNaslovStrani);
@@ -193,6 +209,108 @@
             this.btnPlacila.UseVisualStyleBackColor = true;
             this.btnPlacila.Click += new System.EventHandler(this.btnPlacila_Click);
             // 
+            // btnKoledar
+            // 
+            this.btnKoledar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnKoledar.FlatAppearance.BorderSize = 0;
+            this.btnKoledar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKoledar.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKoledar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnKoledar.Location = new System.Drawing.Point(0, 340);
+            this.btnKoledar.Name = "btnKoledar";
+            this.btnKoledar.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnKoledar.Size = new System.Drawing.Size(220, 50);
+            this.btnKoledar.TabIndex = 7;
+            this.btnKoledar.Text = "Koledar";
+            this.btnKoledar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnKoledar.UseVisualStyleBackColor = true;
+            this.btnKoledar.Click += new System.EventHandler(this.btnKoledar_Click);
+            // 
+            // btnServisi
+            // 
+            this.btnServisi.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServisi.FlatAppearance.BorderSize = 0;
+            this.btnServisi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnServisi.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServisi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnServisi.Location = new System.Drawing.Point(0, 390);
+            this.btnServisi.Name = "btnServisi";
+            this.btnServisi.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnServisi.Size = new System.Drawing.Size(220, 50);
+            this.btnServisi.TabIndex = 8;
+            this.btnServisi.Text = "Servisi";
+            this.btnServisi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnServisi.UseVisualStyleBackColor = true;
+            this.btnServisi.Click += new System.EventHandler(this.btnServisi_Click);
+            // 
+            // btnPoskodbe
+            // 
+            this.btnPoskodbe.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPoskodbe.FlatAppearance.BorderSize = 0;
+            this.btnPoskodbe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPoskodbe.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPoskodbe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnPoskodbe.Location = new System.Drawing.Point(0, 440);
+            this.btnPoskodbe.Name = "btnPoskodbe";
+            this.btnPoskodbe.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnPoskodbe.Size = new System.Drawing.Size(220, 50);
+            this.btnPoskodbe.TabIndex = 9;
+            this.btnPoskodbe.Text = "Poškodbe";
+            this.btnPoskodbe.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPoskodbe.UseVisualStyleBackColor = true;
+            this.btnPoskodbe.Click += new System.EventHandler(this.btnPoskodbe_Click);
+            // 
+            // btnPorocila
+            // 
+            this.btnPorocila.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPorocila.FlatAppearance.BorderSize = 0;
+            this.btnPorocila.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPorocila.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPorocila.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnPorocila.Location = new System.Drawing.Point(0, 490);
+            this.btnPorocila.Name = "btnPorocila";
+            this.btnPorocila.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnPorocila.Size = new System.Drawing.Size(220, 50);
+            this.btnPorocila.TabIndex = 10;
+            this.btnPorocila.Text = "Poročila";
+            this.btnPorocila.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPorocila.UseVisualStyleBackColor = true;
+            this.btnPorocila.Click += new System.EventHandler(this.btnPorocila_Click);
+            // 
+            // btnUporabniki
+            // 
+            this.btnUporabniki.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUporabniki.FlatAppearance.BorderSize = 0;
+            this.btnUporabniki.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUporabniki.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUporabniki.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnUporabniki.Location = new System.Drawing.Point(0, 540);
+            this.btnUporabniki.Name = "btnUporabniki";
+            this.btnUporabniki.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnUporabniki.Size = new System.Drawing.Size(220, 50);
+            this.btnUporabniki.TabIndex = 11;
+            this.btnUporabniki.Text = "Uporabniki";
+            this.btnUporabniki.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUporabniki.UseVisualStyleBackColor = true;
+            this.btnUporabniki.Click += new System.EventHandler(this.btnUporabniki_Click);
+            // 
+            // btnNastavitve
+            // 
+            this.btnNastavitve.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNastavitve.FlatAppearance.BorderSize = 0;
+            this.btnNastavitve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNastavitve.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNastavitve.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnNastavitve.Location = new System.Drawing.Point(0, 590);
+            this.btnNastavitve.Name = "btnNastavitve";
+            this.btnNastavitve.Padding = new System.Windows.Forms.Padding(20, 0, 0, 0);
+            this.btnNastavitve.Size = new System.Drawing.Size(220, 50);
+            this.btnNastavitve.TabIndex = 12;
+            this.btnNastavitve.Text = "Nastavitve";
+            this.btnNastavitve.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNastavitve.UseVisualStyleBackColor = true;
+            this.btnNastavitve.Click += new System.EventHandler(this.btnNastavitve_Click);
+            // 
             // btnOdjava
             // 
             this.btnOdjava.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -212,6 +330,37 @@
             this.btnOdjava.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnOdjava.UseVisualStyleBackColor = false;
             this.btnOdjava.Click += new System.EventHandler(this.btnOdjava_Click);
+            //
+            // btnTema
+            //
+            this.btnTema.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTema.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnTema.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.btnTema.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTema.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTema.Location = new System.Drawing.Point(790, 18);
+            this.btnTema.Name = "btnTema";
+            this.btnTema.Size = new System.Drawing.Size(40, 34);
+            this.btnTema.TabIndex = 3;
+            this.btnTema.Text = "🌙";
+            this.btnTema.UseVisualStyleBackColor = true;
+            this.btnTema.Click += new System.EventHandler(this.btnTema_Click);
+            //
+            // btnJezik
+            //
+            this.btnJezik.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnJezik.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnJezik.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.btnJezik.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnJezik.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnJezik.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.btnJezik.Location = new System.Drawing.Point(836, 18);
+            this.btnJezik.Name = "btnJezik";
+            this.btnJezik.Size = new System.Drawing.Size(44, 34);
+            this.btnJezik.TabIndex = 4;
+            this.btnJezik.Text = "EN";
+            this.btnJezik.UseVisualStyleBackColor = true;
+            this.btnJezik.Click += new System.EventHandler(this.btnJezik_Click);
             // 
             // lblNaslovStrani
             // 
@@ -227,6 +376,7 @@
             // 
             this.lblUporabnik.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUporabnik.AutoSize = true;
+            this.lblUporabnik.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblUporabnik.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUporabnik.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.lblUporabnik.Location = new System.Drawing.Point(900, 25);
@@ -234,6 +384,7 @@
             this.lblUporabnik.Size = new System.Drawing.Size(45, 17);
             this.lblUporabnik.TabIndex = 1;
             this.lblUporabnik.Text = "Admin";
+            this.lblUporabnik.Click += new System.EventHandler(this.lblUporabnik_Click);
             this.lblUporabnik.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelSeparator
@@ -304,6 +455,14 @@
         private System.Windows.Forms.Button btnStranke;
         private System.Windows.Forms.Button btnPlacila;
         private System.Windows.Forms.Button btnOdjava;
+        private System.Windows.Forms.Button btnKoledar;
+        private System.Windows.Forms.Button btnServisi;
+        private System.Windows.Forms.Button btnPoskodbe;
+        private System.Windows.Forms.Button btnPorocila;
+        private System.Windows.Forms.Button btnUporabniki;
+        private System.Windows.Forms.Button btnNastavitve;
+        private System.Windows.Forms.Button btnTema;
+        private System.Windows.Forms.Button btnJezik;
         private System.Windows.Forms.Label lblUporabnik;
         private System.Windows.Forms.Label lblNaslovStrani;
         private System.Windows.Forms.Panel panelSeparator;
