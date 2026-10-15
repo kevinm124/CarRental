@@ -12,5 +12,6 @@ namespace CarRental.Modeli
         public DateTime DatumDo { get; set; }
         public decimal SkupnaCena { get; set; }
         public string Status { get; set; }
+        public decimal Popust { get; set; }
     }
 }

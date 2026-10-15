@@ -13,5 +13,6 @@
         public string Status { get; set; }
         public int KategorijaId { get; set; }
         public string PotSlike { get; set; }
+        public int PrevozeniKm { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.SQLite;
 using System.IO;
 
@@ -6,8 +6,17 @@ namespace CarRental.Baza
 {
     public static class PovezavaBaze
     {
-        private static string potBaze = "izposoja.db";
-        private static string povezavaString = $"Data Source={potBaze};Version=3;";
+        // Baza je vedno poleg .exe datoteke (ne glede na to, iz katere mape zaženemo program)
+        private static readonly string potBaze = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "izposoja.db");
+
+        private static readonly string povezavaString = new SQLiteConnectionStringBuilder
+        {
+            DataSource = potBaze,
+            Version = 3,
+            ForeignKeys = true
+        }.ToString();
+
+        public static string PotBaze => potBaze;
 
         public static SQLiteConnection PridobiPovezavo()
         {
@@ -91,6 +100,55 @@ namespace CarRental.Baza
                         status TEXT DEFAULT 'placano',
                         FOREIGN KEY (rezervacija_id) REFERENCES rezervacije(id)
                     );
+
+                    -- V3: nastavitve aplikacije (tema, jezik, podjetje, email ...)
+                    CREATE TABLE IF NOT EXISTS nastavitve (
+                        kljuc TEXT PRIMARY KEY,
+                        vrednost TEXT
+                    );
+
+                    -- V3: galerija slik za vsak avtomobil
+                    CREATE TABLE IF NOT EXISTS avtomobili_slike (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        avtomobil_id INTEGER NOT NULL,
+                        pot_slike TEXT NOT NULL,
+                        datum_dodajanja TEXT DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (avtomobil_id) REFERENCES avtomobili(id) ON DELETE CASCADE
+                    );
+
+                    -- V3: zgodovina servisov
+                    CREATE TABLE IF NOT EXISTS servisi (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        avtomobil_id INTEGER NOT NULL,
+                        datum TEXT NOT NULL,
+                        vrsta TEXT NOT NULL,
+                        opis TEXT,
+                        km INTEGER,
+                        cena REAL DEFAULT 0,
+                        naslednji_servis TEXT,
+                        FOREIGN KEY (avtomobil_id) REFERENCES avtomobili(id) ON DELETE CASCADE
+                    );
+
+                    -- V3: poškodbe vozil
+                    CREATE TABLE IF NOT EXISTS poskodbe (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        avtomobil_id INTEGER NOT NULL,
+                        rezervacija_id INTEGER,
+                        datum TEXT NOT NULL,
+                        opis TEXT NOT NULL,
+                        resnost TEXT DEFAULT 'manjsa',
+                        ocenjeni_strosek REAL DEFAULT 0,
+                        status TEXT DEFAULT 'odprta',
+                        FOREIGN KEY (avtomobil_id) REFERENCES avtomobili(id) ON DELETE CASCADE,
+                        FOREIGN KEY (rezervacija_id) REFERENCES rezervacije(id) ON DELETE SET NULL
+                    );
+
+                    CREATE TABLE IF NOT EXISTS poskodbe_slike (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        poskodba_id INTEGER NOT NULL,
+                        pot_slike TEXT NOT NULL,
+                        FOREIGN KEY (poskodba_id) REFERENCES poskodbe(id) ON DELETE CASCADE
+                    );
                 ";
 
                 using (var ukaz = new SQLiteCommand(ustvariTabele, povezava))
@@ -98,8 +156,52 @@ namespace CarRental.Baza
                     ukaz.ExecuteNonQuery();
                 }
 
+                // V3: novi stolpci v obstoječih tabelah (stara baza ostane veljavna)
+                DodajStolpecCeNeObstaja(povezava, "rezervacije", "popust", "REAL DEFAULT 0");
+                DodajStolpecCeNeObstaja(povezava, "avtomobili", "prevozeni_km", "INTEGER DEFAULT 0");
+                DodajStolpecCeNeObstaja(povezava, "zaposleni", "aktiven", "INTEGER DEFAULT 1");
+
                 // Dodaj privzete kategorije in admin uporabnika
                 DodajPrivzetePodatke(povezava);
+            }
+
+            SinhronizirajGlavneSlike();
+        }
+
+        private static void DodajStolpecCeNeObstaja(SQLiteConnection povezava, string tabela, string stolpec, string definicija)
+        {
+            using (var ukaz = new SQLiteCommand($"PRAGMA table_info({tabela})", povezava))
+            using (var bralec = ukaz.ExecuteReader())
+            {
+                while (bralec.Read())
+                {
+                    if (string.Equals(bralec["name"].ToString(), stolpec, StringComparison.OrdinalIgnoreCase))
+                        return;
+                }
+            }
+
+            using (var ukaz = new SQLiteCommand($"ALTER TABLE {tabela} ADD COLUMN {stolpec} {definicija}", povezava))
+            {
+                ukaz.ExecuteNonQuery();
+            }
+        }
+
+        // Glavna slika avtomobila je vedno tudi v galeriji
+        public static void SinhronizirajGlavneSlike()
+        {
+            using (var povezava = PridobiPovezavo())
+            {
+                povezava.Open();
+                string sql = @"
+                    INSERT INTO avtomobili_slike (avtomobil_id, pot_slike)
+                    SELECT a.id, a.pot_slike FROM avtomobili a
+                    WHERE a.pot_slike IS NOT NULL AND a.pot_slike <> ''
+                      AND NOT EXISTS (SELECT 1 FROM avtomobili_slike s
+                                      WHERE s.avtomobil_id = a.id AND s.pot_slike = a.pot_slike)";
+                using (var ukaz = new SQLiteCommand(sql, povezava))
+                {
+                    ukaz.ExecuteNonQuery();
+                }
             }
         }
 

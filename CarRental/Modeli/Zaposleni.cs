@@ -8,5 +8,6 @@
         public string Email { get; set; }
         public string GesloHash { get; set; }
         public string Vloga { get; set; }
+        public bool Aktiven { get; set; } = true;
     }
 }
