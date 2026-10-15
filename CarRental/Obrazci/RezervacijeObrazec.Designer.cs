@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnIzvoz = new System.Windows.Forms.Button();
+            this.btnPogodba = new System.Windows.Forms.Button();
+            this.btnRacun = new System.Windows.Forms.Button();
+            this.btnEmail = new System.Windows.Forms.Button();
+            this.btnPoskodba = new System.Windows.Forms.Button();
             this.panelOrodja = new System.Windows.Forms.Panel();
             this.btnOsvezi = new System.Windows.Forms.Button();
             this.btnNovaRezervacija = new System.Windows.Forms.Button();
@@ -66,6 +71,7 @@
             // panelOrodja
             // 
             this.panelOrodja.BackColor = System.Drawing.Color.White;
+            this.panelOrodja.Controls.Add(this.btnIzvoz);
             this.panelOrodja.Controls.Add(this.btnOsvezi);
             this.panelOrodja.Controls.Add(this.btnNovaRezervacija);
             this.panelOrodja.Controls.Add(this.cmbFilterStatus);
@@ -199,6 +205,10 @@
             // 
             this.panelDetajli.BackColor = System.Drawing.Color.White;
             this.panelDetajli.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDetajli.Controls.Add(this.btnPoskodba);
+            this.panelDetajli.Controls.Add(this.btnEmail);
+            this.panelDetajli.Controls.Add(this.btnRacun);
+            this.panelDetajli.Controls.Add(this.btnPogodba);
             this.panelDetajli.Controls.Add(this.btnPrekliciRez);
             this.panelDetajli.Controls.Add(this.btnZakljuci);
             this.panelDetajli.Controls.Add(this.lblCena);
@@ -215,6 +225,7 @@
             this.panelDetajli.Controls.Add(this.lblStatus);
             this.panelDetajli.Controls.Add(this.lblIdRezervacije);
             this.panelDetajli.Controls.Add(this.lblDetajliNaslov);
+            this.panelDetajli.AutoScroll = true;
             this.panelDetajli.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetajli.Location = new System.Drawing.Point(0, 0);
             this.panelDetajli.Name = "panelDetajli";
@@ -392,6 +403,86 @@
             this.lblDetajliNaslov.Size = new System.Drawing.Size(280, 25);
             this.lblDetajliNaslov.TabIndex = 0;
             this.lblDetajliNaslov.Text = "DETAJLI REZERVACIJE";
+            //
+            // btnIzvoz
+            //
+            this.btnIzvoz.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.btnIzvoz.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIzvoz.FlatAppearance.BorderSize = 0;
+            this.btnIzvoz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIzvoz.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIzvoz.ForeColor = System.Drawing.Color.White;
+            this.btnIzvoz.Location = new System.Drawing.Point(970, 17);
+            this.btnIzvoz.Name = "btnIzvoz";
+            this.btnIzvoz.Size = new System.Drawing.Size(110, 38);
+            this.btnIzvoz.TabIndex = 20;
+            this.btnIzvoz.Text = "📊 EXCEL";
+            this.btnIzvoz.UseVisualStyleBackColor = false;
+            this.btnIzvoz.Click += new System.EventHandler(this.btnIzvoz_Click);
+            //
+            // btnPogodba
+            //
+            this.btnPogodba.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnPogodba.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPogodba.FlatAppearance.BorderSize = 0;
+            this.btnPogodba.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPogodba.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPogodba.ForeColor = System.Drawing.Color.White;
+            this.btnPogodba.Location = new System.Drawing.Point(20, 500);
+            this.btnPogodba.Name = "btnPogodba";
+            this.btnPogodba.Size = new System.Drawing.Size(130, 40);
+            this.btnPogodba.TabIndex = 21;
+            this.btnPogodba.Text = "📄 POGODBA";
+            this.btnPogodba.UseVisualStyleBackColor = false;
+            this.btnPogodba.Click += new System.EventHandler(this.btnPogodba_Click);
+            //
+            // btnRacun
+            //
+            this.btnRacun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(126)))), ((int)(((byte)(87)))), ((int)(((byte)(194)))));
+            this.btnRacun.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRacun.FlatAppearance.BorderSize = 0;
+            this.btnRacun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRacun.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRacun.ForeColor = System.Drawing.Color.White;
+            this.btnRacun.Location = new System.Drawing.Point(165, 500);
+            this.btnRacun.Name = "btnRacun";
+            this.btnRacun.Size = new System.Drawing.Size(130, 40);
+            this.btnRacun.TabIndex = 22;
+            this.btnRacun.Text = "🧾 RAČUN";
+            this.btnRacun.UseVisualStyleBackColor = false;
+            this.btnRacun.Click += new System.EventHandler(this.btnRacun_Click);
+            //
+            // btnEmail
+            //
+            this.btnEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
+            this.btnEmail.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmail.FlatAppearance.BorderSize = 0;
+            this.btnEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEmail.ForeColor = System.Drawing.Color.White;
+            this.btnEmail.Location = new System.Drawing.Point(20, 550);
+            this.btnEmail.Name = "btnEmail";
+            this.btnEmail.Size = new System.Drawing.Size(275, 40);
+            this.btnEmail.TabIndex = 23;
+            this.btnEmail.Text = "✉ POŠLJI POTRDILO";
+            this.btnEmail.UseVisualStyleBackColor = false;
+            this.btnEmail.Click += new System.EventHandler(this.btnEmail_Click);
+            //
+            // btnPoskodba
+            //
+            this.btnPoskodba.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(125)))), ((int)(((byte)(139)))));
+            this.btnPoskodba.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPoskodba.FlatAppearance.BorderSize = 0;
+            this.btnPoskodba.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPoskodba.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPoskodba.ForeColor = System.Drawing.Color.White;
+            this.btnPoskodba.Location = new System.Drawing.Point(20, 600);
+            this.btnPoskodba.Name = "btnPoskodba";
+            this.btnPoskodba.Size = new System.Drawing.Size(275, 40);
+            this.btnPoskodba.TabIndex = 24;
+            this.btnPoskodba.Text = "⚠ PRIJAVI POŠKODBO";
+            this.btnPoskodba.UseVisualStyleBackColor = false;
+            this.btnPoskodba.Click += new System.EventHandler(this.btnPoskodba_Click);
             // 
             // RezervacijeObrazec
             // 
@@ -444,5 +535,10 @@
         private System.Windows.Forms.Label lblCenaNaslov;
         private System.Windows.Forms.Panel panelSep2;
         private System.Windows.Forms.Button btnPrekliciRez;
+        private System.Windows.Forms.Button btnIzvoz;
+        private System.Windows.Forms.Button btnPogodba;
+        private System.Windows.Forms.Button btnRacun;
+        private System.Windows.Forms.Button btnEmail;
+        private System.Windows.Forms.Button btnPoskodba;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnIzvoz = new System.Windows.Forms.Button();
             this.panelStatistike = new System.Windows.Forms.Panel();
             this.panelOrodja = new System.Windows.Forms.Panel();
             this.panelGlavno = new System.Windows.Forms.Panel();
@@ -72,6 +73,7 @@
             // panelOrodja
             // 
             this.panelOrodja.BackColor = System.Drawing.Color.White;
+            this.panelOrodja.Controls.Add(this.btnIzvoz);
             this.panelOrodja.Controls.Add(this.btnOsvezi);
             this.panelOrodja.Controls.Add(this.btnNovoPlacilo);
             this.panelOrodja.Controls.Add(this.cmbFilterNacin);
@@ -305,6 +307,22 @@
             this.dgvPlacila.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPlacila.Size = new System.Drawing.Size(994, 401);
             this.dgvPlacila.TabIndex = 0;
+            //
+            // btnIzvoz
+            //
+            this.btnIzvoz.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.btnIzvoz.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIzvoz.FlatAppearance.BorderSize = 0;
+            this.btnIzvoz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIzvoz.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIzvoz.ForeColor = System.Drawing.Color.White;
+            this.btnIzvoz.Location = new System.Drawing.Point(980, 17);
+            this.btnIzvoz.Name = "btnIzvoz";
+            this.btnIzvoz.Size = new System.Drawing.Size(110, 38);
+            this.btnIzvoz.TabIndex = 20;
+            this.btnIzvoz.Text = "📊 EXCEL";
+            this.btnIzvoz.UseVisualStyleBackColor = false;
+            this.btnIzvoz.Click += new System.EventHandler(this.btnIzvoz_Click);
             // 
             // PlacilaObrazec
             // 
@@ -351,5 +369,6 @@
         private System.Windows.Forms.ComboBox cmbFilterNacin;
         private System.Windows.Forms.Button btnOsvezi;
         private System.Windows.Forms.DataGridView dgvPlacila;
+        private System.Windows.Forms.Button btnIzvoz;
     }
 }

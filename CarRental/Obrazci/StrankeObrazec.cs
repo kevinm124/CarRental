@@ -5,10 +5,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using CarRental.Baza;
 using CarRental.Modeli;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class StrankeObrazec : Form
+    public partial class StrankeObrazec : OsnovniObrazec
     {
         private Stranka izbranaStranka;
 
@@ -20,6 +21,10 @@ namespace CarRental.Obrazci
 
             dgvStranke.SelectionChanged += DgvStranke_SelectionChanged;
             txtIskanje.TextChanged += (s, e) => NaloziStranke();
+
+            // V3: brisanje samo za administratorja
+            btnIzbrisi.Visible = Pravice.LahkoBrise;
+            PocistiDetajle();
         }
 
         private void NastaviDataGridView()
@@ -115,6 +120,31 @@ namespace CarRental.Obrazci
             if (!string.IsNullOrEmpty(izbranaStranka.Ime)) inicialke += izbranaStranka.Ime[0];
             if (!string.IsNullOrEmpty(izbranaStranka.Priimek)) inicialke += izbranaStranka.Priimek[0];
             lblInicialke.Text = inicialke.ToUpper();
+
+            PrikaziZvestobo();
+        }
+
+        // V3: program zvestobe
+        private void PrikaziZvestobo()
+        {
+            int zakljucenih = Zvestoba.SteviloZakljucenih(izbranaStranka.Id);
+            var stopnja = Zvestoba.StopnjaZaStevilo(zakljucenih);
+
+            if (stopnja == null)
+            {
+                lblZvestoba.Text = Jezik.T("Brez") + "  ·  " + Jezik.T("Zaključenih najemov: {0}", zakljucenih);
+                lblZvestoba.ForeColor = Tema.BesediloSivo;
+            }
+            else
+            {
+                lblZvestoba.Text = Jezik.T("{0} – {1} % popust", Jezik.T(stopnja.Naziv), stopnja.Popust.ToString("0.#"));
+                lblZvestoba.ForeColor = stopnja.Naziv == "Zlata" ? Color.FromArgb(230, 160, 0)
+                    : stopnja.Naziv == "Srebrna" ? Color.FromArgb(130, 130, 130)
+                    : Color.FromArgb(205, 127, 50);
+            }
+            lblZvestobaNapredek.Text = stopnja == null
+                ? Zvestoba.OpisNapredka(zakljucenih)
+                : Jezik.T("Zaključenih najemov: {0}", zakljucenih) + ". " + Zvestoba.OpisNapredka(zakljucenih);
         }
 
         private void PocistiDetajle()
@@ -126,6 +156,9 @@ namespace CarRental.Obrazci
             lblTelefon.Text = "-";
             lblNaslov.Text = "-";
             lblVozniska.Text = "-";
+            lblZvestoba.Text = "-";
+            lblZvestoba.ForeColor = Tema.Besedilo;
+            lblZvestobaNapredek.Text = "";
         }
         
         private void btnDodaj_Click(object sender, EventArgs e)
@@ -201,6 +234,11 @@ namespace CarRental.Obrazci
         {
             NaloziStranke();
             PocistiDetajle();
+        }
+
+        private void btnIzvoz_Click(object sender, EventArgs e)
+        {
+            IzvozExcel.IzvoziTabelo(dgvStranke, "Stranke");
         }
     }
 }

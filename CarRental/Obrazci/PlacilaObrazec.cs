@@ -4,10 +4,11 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
 using CarRental.Baza;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class PlacilaObrazec : Form
+    public partial class PlacilaObrazec : OsnovniObrazec
     {
         public PlacilaObrazec()
         {
@@ -147,6 +148,11 @@ namespace CarRental.Obrazci
         {
             NaloziPlacila();
             PosodobiStatistike();
+        }
+
+        private void btnIzvoz_Click(object sender, EventArgs e)
+        {
+            IzvozExcel.IzvoziTabelo(dgvPlacila, "Placila");
         }
     }
 }

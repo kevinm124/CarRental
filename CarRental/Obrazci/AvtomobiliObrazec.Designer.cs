@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnIzvoz = new System.Windows.Forms.Button();
+            this.btnGalerija = new System.Windows.Forms.Button();
+            this.btnServisi = new System.Windows.Forms.Button();
+            this.btnPoskodbe = new System.Windows.Forms.Button();
             this.panelOrodja = new System.Windows.Forms.Panel();
             this.panelGlavno = new System.Windows.Forms.Panel();
             this.splitGlavno = new System.Windows.Forms.SplitContainer();
@@ -64,6 +68,7 @@
             // panelOrodja
             // 
             this.panelOrodja.BackColor = System.Drawing.Color.White;
+            this.panelOrodja.Controls.Add(this.btnIzvoz);
             this.panelOrodja.Controls.Add(this.txtIskanje);
             this.panelOrodja.Controls.Add(this.btnOsvezi);
             this.panelOrodja.Controls.Add(this.cmbFilterKategorija);
@@ -127,6 +132,9 @@
             // 
             this.panelDetajli.BackColor = System.Drawing.Color.White;
             this.panelDetajli.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDetajli.Controls.Add(this.btnPoskodbe);
+            this.panelDetajli.Controls.Add(this.btnServisi);
+            this.panelDetajli.Controls.Add(this.btnGalerija);
             this.panelDetajli.Controls.Add(this.btnIzbrisi);
             this.panelDetajli.Controls.Add(this.btbnUredi);
             this.panelDetajli.Controls.Add(this.lblBarva);
@@ -139,6 +147,7 @@
             this.panelDetajli.Controls.Add(this.lblImeAvta);
             this.panelDetajli.Controls.Add(this.picSlika);
             this.panelDetajli.Controls.Add(this.lblDetajliNaslov);
+            this.panelDetajli.AutoScroll = true;
             this.panelDetajli.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetajli.Location = new System.Drawing.Point(0, 0);
             this.panelDetajli.Name = "panelDetajli";
@@ -360,6 +369,70 @@
             this.picSlika.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSlika.TabIndex = 1;
             this.picSlika.TabStop = false;
+            //
+            // btnIzvoz
+            //
+            this.btnIzvoz.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.btnIzvoz.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIzvoz.FlatAppearance.BorderSize = 0;
+            this.btnIzvoz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIzvoz.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIzvoz.ForeColor = System.Drawing.Color.White;
+            this.btnIzvoz.Location = new System.Drawing.Point(940, 17);
+            this.btnIzvoz.Name = "btnIzvoz";
+            this.btnIzvoz.Size = new System.Drawing.Size(110, 38);
+            this.btnIzvoz.TabIndex = 20;
+            this.btnIzvoz.Text = "📊 EXCEL";
+            this.btnIzvoz.UseVisualStyleBackColor = false;
+            this.btnIzvoz.Click += new System.EventHandler(this.btnIzvoz_Click);
+            //
+            // btnGalerija
+            //
+            this.btnGalerija.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.btnGalerija.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGalerija.FlatAppearance.BorderSize = 0;
+            this.btnGalerija.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGalerija.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGalerija.ForeColor = System.Drawing.Color.White;
+            this.btnGalerija.Location = new System.Drawing.Point(20, 560);
+            this.btnGalerija.Name = "btnGalerija";
+            this.btnGalerija.Size = new System.Drawing.Size(130, 40);
+            this.btnGalerija.TabIndex = 21;
+            this.btnGalerija.Text = "📷 GALERIJA";
+            this.btnGalerija.UseVisualStyleBackColor = false;
+            this.btnGalerija.Click += new System.EventHandler(this.btnGalerija_Click);
+            //
+            // btnServisi
+            //
+            this.btnServisi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(126)))), ((int)(((byte)(87)))), ((int)(((byte)(194)))));
+            this.btnServisi.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServisi.FlatAppearance.BorderSize = 0;
+            this.btnServisi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnServisi.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnServisi.ForeColor = System.Drawing.Color.White;
+            this.btnServisi.Location = new System.Drawing.Point(165, 560);
+            this.btnServisi.Name = "btnServisi";
+            this.btnServisi.Size = new System.Drawing.Size(130, 40);
+            this.btnServisi.TabIndex = 22;
+            this.btnServisi.Text = "🔧 SERVISI";
+            this.btnServisi.UseVisualStyleBackColor = false;
+            this.btnServisi.Click += new System.EventHandler(this.btnServisi_Click);
+            //
+            // btnPoskodbe
+            //
+            this.btnPoskodbe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(125)))), ((int)(((byte)(139)))));
+            this.btnPoskodbe.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPoskodbe.FlatAppearance.BorderSize = 0;
+            this.btnPoskodbe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPoskodbe.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPoskodbe.ForeColor = System.Drawing.Color.White;
+            this.btnPoskodbe.Location = new System.Drawing.Point(20, 610);
+            this.btnPoskodbe.Name = "btnPoskodbe";
+            this.btnPoskodbe.Size = new System.Drawing.Size(275, 40);
+            this.btnPoskodbe.TabIndex = 23;
+            this.btnPoskodbe.Text = "⚠ POŠKODBE";
+            this.btnPoskodbe.UseVisualStyleBackColor = false;
+            this.btnPoskodbe.Click += new System.EventHandler(this.btnPoskodbe_Click);
             // 
             // AvtomobiliObrazec
             // 
@@ -407,5 +480,9 @@
         private System.Windows.Forms.Label lblBarva;
         private System.Windows.Forms.Button btnIzbrisi;
         private System.Windows.Forms.Button btbnUredi;
+        private System.Windows.Forms.Button btnIzvoz;
+        private System.Windows.Forms.Button btnGalerija;
+        private System.Windows.Forms.Button btnServisi;
+        private System.Windows.Forms.Button btnPoskodbe;
     }
 }

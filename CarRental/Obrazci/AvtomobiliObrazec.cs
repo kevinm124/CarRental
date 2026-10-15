@@ -7,10 +7,11 @@ using System.IO;
 using System.Windows.Forms;
 using CarRental.Baza;
 using CarRental.Modeli;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class AvtomobiliObrazec : Form
+    public partial class AvtomobiliObrazec : OsnovniObrazec
     {
         private List<Kategorija> kategorije;
         private Avtomobil izbranAvtomobil;
@@ -30,6 +31,12 @@ namespace CarRental.Obrazci
             txtIskanje.TextChanged += (s, e) => NaloziAvtomobile();
             cmbFilterKategorija.SelectedIndexChanged += (s, e) => NaloziAvtomobile();
             cmbFilterStatus.SelectedIndexChanged += (s, e) => NaloziAvtomobile();
+
+            // V3: brisanje samo za administratorja, klik na sliko odpre galerijo
+            btnIzbrisi.Visible = Pravice.LahkoBrise;
+            picSlika.Cursor = Cursors.Hand;
+            picSlika.Click += (s, e) => btnGalerija.PerformClick();
+            PocistiDetajle();
         }
 
         private void NastaviDataGridView()
@@ -96,7 +103,7 @@ namespace CarRental.Obrazci
             string sql = @"
                 SELECT a.id, a.znamka, a.model, a.letnik, a.registrska_st, 
                        a.barva, a.st_sedezev, a.cena_na_dan, a.status,
-                       k.naziv AS kategorija, a.pot_slike
+                       k.naziv AS kategorija, a.pot_slike, a.kategorija_id, a.prevozeni_km
                 FROM avtomobili a
                 LEFT JOIN kategorije k ON a.kategorija_id = k.id
                 WHERE 1=1";
@@ -138,6 +145,10 @@ namespace CarRental.Obrazci
                 dgvAvtomobili.Columns["id"].Visible = false;
             if (dgvAvtomobili.Columns["pot_slike"] != null)
                 dgvAvtomobili.Columns["pot_slike"].Visible = false;
+            if (dgvAvtomobili.Columns["kategorija_id"] != null)
+                dgvAvtomobili.Columns["kategorija_id"].Visible = false;
+            if (dgvAvtomobili.Columns["prevozeni_km"] != null)
+                dgvAvtomobili.Columns["prevozeni_km"].HeaderText = "Km";
 
             // Lepša imena stolpcev
             if (dgvAvtomobili.Columns["znamka"] != null) dgvAvtomobili.Columns["znamka"].HeaderText = "Znamka";
@@ -172,7 +183,10 @@ namespace CarRental.Obrazci
                 StSedezev = Convert.ToInt32(vrstica.Cells["st_sedezev"].Value),
                 CenaNaDan = Convert.ToDecimal(vrstica.Cells["cena_na_dan"].Value),
                 Status = vrstica.Cells["status"].Value?.ToString(),
-                PotSlike = vrstica.Cells["pot_slike"].Value?.ToString()
+                PotSlike = vrstica.Cells["pot_slike"].Value?.ToString(),
+                // prej se kategorija ni prebrala, zato je urejanje vedno izbralo prvo kategorijo
+                KategorijaId = vrstica.Cells["kategorija_id"].Value == DBNull.Value ? 0 : Convert.ToInt32(vrstica.Cells["kategorija_id"].Value),
+                PrevozeniKm = vrstica.Cells["prevozeni_km"].Value == DBNull.Value ? 0 : Convert.ToInt32(vrstica.Cells["prevozeni_km"].Value)
             };
 
             string kategorija = vrstica.Cells["kategorija"].Value?.ToString();
@@ -205,24 +219,18 @@ namespace CarRental.Obrazci
 
             // Naloži sliko
             NaloziSliko(izbranAvtomobil.PotSlike);
+
+            btnGalerija.Enabled = true;
+            btnServisi.Enabled = true;
+            btnPoskodbe.Enabled = true;
         }
 
         private void NaloziSliko(string potSlike)
         {
-            if (!string.IsNullOrEmpty(potSlike))
-            {
-                string polnaPot = Path.Combine(Application.StartupPath, potSlike);
-                if (File.Exists(polnaPot))
-                {
-                    try
-                    {
-                        picSlika.Image = Image.FromFile(polnaPot);
-                        return;
-                    }
-                    catch { }
-                }
-            }
-            picSlika.Image = null;
+            // Sliko preberemo v pomnilnik, da datoteka ni zaklenjena (galerija jo lahko izbriše)
+            var stara = picSlika.Image;
+            picSlika.Image = SlikePomocnik.Nalozi(potSlike);
+            stara?.Dispose();
         }
 
         private void PocistiDetajle()
@@ -237,7 +245,10 @@ namespace CarRental.Obrazci
             lblBarva.Text = "Barva: -";
             lblStatus.Text = "";
             lblStatus.BackColor = Color.Gray;
-            picSlika.Image = null;
+            NaloziSliko(null);
+            btnGalerija.Enabled = false;
+            btnServisi.Enabled = false;
+            btnPoskodbe.Enabled = false;
         }
         
         private void btnDodaj_Click(object sender, EventArgs e)
@@ -300,6 +311,11 @@ namespace CarRental.Obrazci
                     NaloziAvtomobile();
                     PocistiDetajle();
                 }
+                catch (SQLiteException ex) when (ex.ResultCode == SQLiteErrorCode.Constraint)
+                {
+                    MessageBox.Show("Avtomobila ni mogoče izbrisati, ker ima zabeležene rezervacije.", "Napaka",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Napaka pri brisanju: " + ex.Message, "Napaka",
@@ -312,6 +328,70 @@ namespace CarRental.Obrazci
         {
             NaloziAvtomobile();
             PocistiDetajle();
+        }
+
+        private void btnIzvoz_Click(object sender, EventArgs e)
+        {
+            IzvozExcel.IzvoziTabelo(dgvAvtomobili, "Avtomobili");
+        }
+
+        private void btnGalerija_Click(object sender, EventArgs e)
+        {
+            if (izbranAvtomobil == null)
+                return;
+
+            using (var galerija = new GalerijaObrazec(izbranAvtomobil.Id, $"{izbranAvtomobil.Znamka} {izbranAvtomobil.Model}"))
+            {
+                galerija.ShowDialog(this);
+                if (galerija.Spremenjeno)
+                {
+                    int id = izbranAvtomobil.Id;
+                    NaloziAvtomobile();
+                    IzberiVrstico(id);
+                }
+            }
+        }
+
+        private void btnServisi_Click(object sender, EventArgs e)
+        {
+            if (izbranAvtomobil == null)
+                return;
+
+            int id = izbranAvtomobil.Id;
+            using (var servisi = new ServisiObrazec(id))
+            {
+                servisi.Size = new Size(1150, 720);
+                servisi.StartPosition = FormStartPosition.CenterParent;
+                servisi.ShowDialog(this);
+            }
+            NaloziAvtomobile();   // status avtomobila se je morda spremenil
+            IzberiVrstico(id);
+        }
+
+        private void btnPoskodbe_Click(object sender, EventArgs e)
+        {
+            if (izbranAvtomobil == null)
+                return;
+
+            using (var poskodbe = new PoskodbeObrazec(izbranAvtomobil.Id))
+            {
+                poskodbe.Size = new Size(1150, 720);
+                poskodbe.StartPosition = FormStartPosition.CenterParent;
+                poskodbe.ShowDialog(this);
+            }
+        }
+
+        private void IzberiVrstico(int id)
+        {
+            foreach (DataGridViewRow vrstica in dgvAvtomobili.Rows)
+            {
+                if (Convert.ToInt32(vrstica.Cells["id"].Value) == id)
+                {
+                    vrstica.Selected = true;
+                    dgvAvtomobili.CurrentCell = vrstica.Cells["znamka"];
+                    return;
+                }
+            }
         }
     }
 }

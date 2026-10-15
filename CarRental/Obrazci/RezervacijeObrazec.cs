@@ -4,13 +4,15 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Windows.Forms;
 using CarRental.Baza;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class RezervacijeObrazec : Form
+    public partial class RezervacijeObrazec : OsnovniObrazec
     {
         private int izbranaRezervacijaId = -1;
         private string trenutniStatus = "";
+        private int izbranAvtomobilId = -1;
 
         public RezervacijeObrazec()
         {
@@ -22,6 +24,7 @@ namespace CarRental.Obrazci
             dgvRezervacije.SelectionChanged += DgvRezervacije_SelectionChanged;
             txtIskanje.TextChanged += (s, e) => NaloziRezervacije();
             cmbFilterStatus.SelectedIndexChanged += (s, e) => NaloziRezervacije();
+            PocistiDetajle();
         }
 
         private void NastaviDataGridView()
@@ -58,7 +61,8 @@ namespace CarRental.Obrazci
                 SELECT r.id, 
                        (s.ime || ' ' || s.priimek) AS stranka,
                        (a.znamka || ' ' || a.model) AS avto,
-                       r.datum_od, r.datum_do, r.skupna_cena, r.status
+                       r.datum_od, r.datum_do, r.skupna_cena, r.status,
+                       r.avtomobil_id, COALESCE(r.popust, 0) AS popust
                 FROM rezervacije r
                 LEFT JOIN stranke s ON r.stranka_id = s.id
                 LEFT JOIN avtomobili a ON r.avtomobil_id = a.id
@@ -111,6 +115,10 @@ namespace CarRental.Obrazci
 
             if (dgvRezervacije.Columns["id"] != null)
                 dgvRezervacije.Columns["id"].Width = 50;
+            if (dgvRezervacije.Columns["avtomobil_id"] != null)
+                dgvRezervacije.Columns["avtomobil_id"].Visible = false;
+            if (dgvRezervacije.Columns["popust"] != null)
+                dgvRezervacije.Columns["popust"].Visible = false;
 
             if (dgvRezervacije.Columns["datum_od"] != null)
                 dgvRezervacije.Columns["datum_od"].DefaultCellStyle.Format = "d.M.yyyy";
@@ -141,6 +149,10 @@ namespace CarRental.Obrazci
             lblObdobje.Text = $"{datumOd:d.M.yyyy} → {datumDo:d.M.yyyy}";
             lblSteviloDni.Text = $"{stDni} {(stDni == 1 ? "dan" : "dni")}";
             lblCena.Text = $"{Convert.ToDecimal(vrstica.Cells["skupna_cena"].Value):F2} €";
+            izbranAvtomobilId = Convert.ToInt32(vrstica.Cells["avtomobil_id"].Value);
+            decimal popust = Convert.ToDecimal(vrstica.Cells["popust"].Value);
+            if (popust > 0)
+                lblCena.Text += $"  (−{popust:0.#} %)";
 
             // Barva statusa
             lblStatus.Text = trenutniStatus.ToUpper();
@@ -163,6 +175,12 @@ namespace CarRental.Obrazci
             // Onemogoči gumbe za že zaključene/preklicane rezervacije
             btnZakljuci.Enabled = trenutniStatus == "aktivna";
             btnPrekliciRez.Enabled = trenutniStatus == "aktivna";
+
+            // V3: dokumenti in email
+            btnPogodba.Enabled = trenutniStatus != "preklicana";
+            btnRacun.Enabled = trenutniStatus == "zakljucena";
+            btnEmail.Enabled = trenutniStatus == "aktivna";
+            btnPoskodba.Enabled = true;
         }
 
         private void PocistiDetajle()
@@ -179,6 +197,10 @@ namespace CarRental.Obrazci
             lblStatus.BackColor = Color.Gray;
             btnZakljuci.Enabled = false;
             btnPrekliciRez.Enabled = false;
+            btnPogodba.Enabled = false;
+            btnRacun.Enabled = false;
+            btnEmail.Enabled = false;
+            btnPoskodba.Enabled = false;
         }
         
         private void btnNovaRezervacija_Click(object sender, EventArgs e)
@@ -202,7 +224,18 @@ namespace CarRental.Obrazci
 
             if (rezultat == DialogResult.Yes)
             {
+                int rezervacijaId = izbranaRezervacijaId;
+                int avtomobilId = izbranAvtomobilId;
                 SpremeniStatusRezervacije("zakljucena");
+
+                // V3: pregled vozila ob vračilu
+                var poskodba = MessageBox.Show("Ali so bile ob vračilu vozila ugotovljene poškodbe?",
+                    "Pregled vozila", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (poskodba == DialogResult.Yes)
+                {
+                    using (var dialog = new DodajUrediPoskodboObrazec(avtomobilId, rezervacijaId))
+                        dialog.ShowDialog(this);
+                }
             }
         }
 
@@ -264,6 +297,73 @@ namespace CarRental.Obrazci
         {
             NaloziRezervacije();
             PocistiDetajle();
+        }
+
+        private void btnIzvoz_Click(object sender, EventArgs e)
+        {
+            IzvozExcel.IzvoziTabelo(dgvRezervacije, "Rezervacije");
+        }
+
+        private void btnPogodba_Click(object sender, EventArgs e)
+        {
+            var podatki = izbranaRezervacijaId < 0 ? null : PodatkiRezervacije.Nalozi(izbranaRezervacijaId);
+            if (podatki == null)
+                return;
+
+            PdfDokumenti.ShraniZDialogom($"{Jezik.T("Pogodba")}_{podatki.Rezervacija.Id}",
+                pot => PdfDokumenti.UstvariPogodbo(podatki, pot));
+        }
+
+        private void btnRacun_Click(object sender, EventArgs e)
+        {
+            var podatki = izbranaRezervacijaId < 0 ? null : PodatkiRezervacije.Nalozi(izbranaRezervacijaId);
+            if (podatki == null)
+                return;
+
+            PdfDokumenti.ShraniZDialogom($"{Jezik.T("Racun")}_{PdfDokumenti.StevilkaRacuna(podatki)}",
+                pot => PdfDokumenti.UstvariRacun(podatki, pot));
+        }
+
+        private async void btnEmail_Click(object sender, EventArgs e)
+        {
+            if (izbranaRezervacijaId < 0)
+                return;
+
+            if (!EmailPomocnik.JeNastavljen)
+            {
+                MessageBox.Show("Pošiljanje emailov ni nastavljeno. Administrator ga lahko vklopi v Nastavitve > Email.",
+                    "Opozorilo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            btnEmail.Enabled = false;
+            Cursor = Cursors.WaitCursor;
+            try
+            {
+                await EmailPomocnik.PosljiPotrditevAsync(izbranaRezervacijaId);
+                MessageBox.Show("Potrditev je bila poslana stranki.", "Uspeh",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Pošiljanje ni uspelo: " + ex.GetBaseException().Message, "Napaka",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+                if (!IsDisposed)
+                    btnEmail.Enabled = trenutniStatus == "aktivna";
+            }
+        }
+
+        private void btnPoskodba_Click(object sender, EventArgs e)
+        {
+            if (izbranaRezervacijaId < 0)
+                return;
+
+            using (var dialog = new DodajUrediPoskodboObrazec(izbranAvtomobilId, izbranaRezervacijaId))
+                dialog.ShowDialog(this);
         }
     }
 }

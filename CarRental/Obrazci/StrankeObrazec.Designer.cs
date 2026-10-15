@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnIzvoz = new System.Windows.Forms.Button();
+            this.lblZvestobaNaslov = new System.Windows.Forms.Label();
+            this.lblZvestoba = new System.Windows.Forms.Label();
+            this.lblZvestobaNapredek = new System.Windows.Forms.Label();
             this.panelOrodja = new System.Windows.Forms.Panel();
             this.btnOsvezi = new System.Windows.Forms.Button();
             this.btnDodaj = new System.Windows.Forms.Button();
@@ -63,6 +67,7 @@
             // panelOrodja
             // 
             this.panelOrodja.BackColor = System.Drawing.Color.White;
+            this.panelOrodja.Controls.Add(this.btnIzvoz);
             this.panelOrodja.Controls.Add(this.btnOsvezi);
             this.panelOrodja.Controls.Add(this.btnDodaj);
             this.panelOrodja.Controls.Add(this.txtIskanje);
@@ -183,6 +188,9 @@
             // 
             this.panelDetajli.BackColor = System.Drawing.Color.White;
             this.panelDetajli.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelDetajli.Controls.Add(this.lblZvestobaNapredek);
+            this.panelDetajli.Controls.Add(this.lblZvestoba);
+            this.panelDetajli.Controls.Add(this.lblZvestobaNaslov);
             this.panelDetajli.Controls.Add(this.btnIzbrisi);
             this.panelDetajli.Controls.Add(this.btnUredi);
             this.panelDetajli.Controls.Add(this.lblVozniska);
@@ -197,6 +205,7 @@
             this.panelDetajli.Controls.Add(this.lblPolnoIme);
             this.panelDetajli.Controls.Add(this.lblInicialke);
             this.panelDetajli.Controls.Add(this.lblDetajliNaslov);
+            this.panelDetajli.AutoScroll = true;
             this.panelDetajli.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDetajli.Location = new System.Drawing.Point(0, 0);
             this.panelDetajli.Name = "panelDetajli";
@@ -356,6 +365,52 @@
             this.lblDetajliNaslov.Size = new System.Drawing.Size(280, 25);
             this.lblDetajliNaslov.TabIndex = 0;
             this.lblDetajliNaslov.Text = "DETAJLI STRANKE";
+            //
+            // btnIzvoz
+            //
+            this.btnIzvoz.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
+            this.btnIzvoz.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIzvoz.FlatAppearance.BorderSize = 0;
+            this.btnIzvoz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIzvoz.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIzvoz.ForeColor = System.Drawing.Color.White;
+            this.btnIzvoz.Location = new System.Drawing.Point(970, 17);
+            this.btnIzvoz.Name = "btnIzvoz";
+            this.btnIzvoz.Size = new System.Drawing.Size(110, 38);
+            this.btnIzvoz.TabIndex = 20;
+            this.btnIzvoz.Text = "📊 EXCEL";
+            this.btnIzvoz.UseVisualStyleBackColor = false;
+            this.btnIzvoz.Click += new System.EventHandler(this.btnIzvoz_Click);
+            //
+            // lblZvestobaNaslov
+            //
+            this.lblZvestobaNaslov.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZvestobaNaslov.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.lblZvestobaNaslov.Location = new System.Drawing.Point(20, 425);
+            this.lblZvestobaNaslov.Name = "lblZvestobaNaslov";
+            this.lblZvestobaNaslov.Size = new System.Drawing.Size(150, 18);
+            this.lblZvestobaNaslov.TabIndex = 21;
+            this.lblZvestobaNaslov.Text = "ZVESTOBA";
+            //
+            // lblZvestoba
+            //
+            this.lblZvestoba.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZvestoba.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.lblZvestoba.Location = new System.Drawing.Point(20, 445);
+            this.lblZvestoba.Name = "lblZvestoba";
+            this.lblZvestoba.Size = new System.Drawing.Size(280, 20);
+            this.lblZvestoba.TabIndex = 22;
+            this.lblZvestoba.Text = "-";
+            //
+            // lblZvestobaNapredek
+            //
+            this.lblZvestobaNapredek.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblZvestobaNapredek.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.lblZvestobaNapredek.Location = new System.Drawing.Point(20, 467);
+            this.lblZvestobaNapredek.Name = "lblZvestobaNapredek";
+            this.lblZvestobaNapredek.Size = new System.Drawing.Size(280, 36);
+            this.lblZvestobaNapredek.TabIndex = 23;
+            this.lblZvestobaNapredek.Text = "";
             // 
             // StrankeObrazec
             // 
@@ -404,5 +459,9 @@
         private System.Windows.Forms.Label lblTelefon;
         private System.Windows.Forms.Label lblTelefonNaslov;
         private System.Windows.Forms.Button btnIzbrisi;
+        private System.Windows.Forms.Button btnIzvoz;
+        private System.Windows.Forms.Label lblZvestobaNaslov;
+        private System.Windows.Forms.Label lblZvestoba;
+        private System.Windows.Forms.Label lblZvestobaNapredek;
     }
 }

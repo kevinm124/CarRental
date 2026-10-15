@@ -6,10 +6,11 @@ using System.IO;
 using System.Windows.Forms;
 using CarRental.Baza;
 using CarRental.Modeli;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class DodajUrediAvtomobilObrazec : Form
+    public partial class DodajUrediAvtomobilObrazec : OsnovniObrazec
     {
         private Avtomobil avtomobilZaUrejanje;
         private List<Kategorija> kategorije;
@@ -91,9 +92,7 @@ namespace CarRental.Obrazci
             {
                 string polnaPot = Path.Combine(Application.StartupPath, avtomobilZaUrejanje.PotSlike);
                 if (File.Exists(polnaPot))
-                {
-                    try { picSlika.Image = Image.FromFile(polnaPot); } catch { }
-                }
+                    picSlika.Image = SlikePomocnik.Nalozi(polnaPot);
             }
         }
 
@@ -111,7 +110,7 @@ namespace CarRental.Obrazci
                         // Naloži v PictureBox, ampak NE kopiraj še v Slike mapo
                         // (kopiramo šele ko klikneš Shrani)
                         novaSlikaPot = dialog.FileName;
-                        picSlika.Image = Image.FromFile(novaSlikaPot);
+                        picSlika.Image = SlikePomocnik.Nalozi(novaSlikaPot);
                     }
                     catch (Exception ex)
                     {
@@ -262,6 +261,9 @@ namespace CarRental.Obrazci
                         ukaz.ExecuteNonQuery();
                     }
                 }
+
+                // Nova glavna slika se doda tudi v galerijo
+                PovezavaBaze.SinhronizirajGlavneSlike();
 
                 MessageBox.Show(
                     jeUrejanje ? "Avtomobil je bil uspešno posodobljen." : "Avtomobil je bil uspešno dodan.",

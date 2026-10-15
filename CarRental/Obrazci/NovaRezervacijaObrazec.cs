@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Windows.Forms;
+using System.Drawing;
 using CarRental.Baza;
+using CarRental.Pomocniki;
 
 namespace CarRental.Obrazci
 {
-    public partial class NovaRezervacijaObrazec : Form
+    public partial class NovaRezervacijaObrazec : OsnovniObrazec
     {
         // Razrede za hranjenje podatkov v ComboBox-ih
         private class StrankaItem
         {
             public int Id { get; set; }
             public string PrikaznoIme { get; set; }
+            public string Email { get; set; }
             public override string ToString() => PrikaznoIme;
         }
+
+        // V3: popust zvestobe za izbrano stranko
+        private decimal popust = 0;
+        private Label lblPopustNaslov;
+        private Label lblPopust;
 
         private class AvtomobilItem
         {
@@ -27,6 +35,7 @@ namespace CarRental.Obrazci
         public NovaRezervacijaObrazec()
         {
             InitializeComponent();
+            DodajPrikazPopusta();
             NaloziStranke();
             NaloziProsteAvtomobile();
             NaloziStatuse();
@@ -40,6 +49,7 @@ namespace CarRental.Obrazci
             dtpDatumDo.MinDate = DateTime.Today;
 
             // Eventi za avtomatski izračun cene
+            cmbStranka.SelectedIndexChanged += (s, e) => PosodobiPopust();
             cmbAvto.SelectedIndexChanged += (s, e) => PreracunajCeno();
             dtpDatumOd.ValueChanged += (s, e) =>
             {
@@ -70,7 +80,8 @@ namespace CarRental.Obrazci
                         cmbStranka.Items.Add(new StrankaItem
                         {
                             Id = Convert.ToInt32(bralec["id"]),
-                            PrikaznoIme = prikaz
+                            PrikaznoIme = prikaz,
+                            Email = email
                         });
                     }
                 }
@@ -127,6 +138,46 @@ namespace CarRental.Obrazci
             cmbStatus.SelectedIndex = 0;
         }
 
+        private void DodajPrikazPopusta()
+        {
+            lblPopustNaslov = new Label
+            {
+                Text = "POPUST ZVESTOBE",
+                Location = new Point(390, 45),
+                Size = new Size(215, 18),
+                Font = new Font("Segoe UI", 8.25F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(120, 120, 120),
+                TextAlign = ContentAlignment.MiddleRight
+            };
+            lblPopust = new Label
+            {
+                Text = "-",
+                Location = new Point(390, 68),
+                Size = new Size(215, 22),
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(76, 175, 80),
+                TextAlign = ContentAlignment.MiddleRight
+            };
+            panelPovzetek.Controls.Add(lblPopustNaslov);
+            panelPovzetek.Controls.Add(lblPopust);
+        }
+
+        private void PosodobiPopust()
+        {
+            popust = 0;
+            lblPopust.Text = "-";
+            if (cmbStranka.SelectedItem is StrankaItem stranka)
+            {
+                var stopnja = Zvestoba.StopnjaStranke(stranka.Id);
+                if (stopnja != null)
+                {
+                    popust = stopnja.Popust;
+                    lblPopust.Text = $"{Jezik.T(stopnja.Naziv)}: −{popust:0.#} %";
+                }
+            }
+            PreracunajCeno();
+        }
+
         private void PreracunajCeno()
         {
             if (cmbAvto.SelectedItem == null)
@@ -142,7 +193,7 @@ namespace CarRental.Obrazci
 
             if (stDni < 1) stDni = 1;
 
-            decimal skupaj = stDni * izbran.CenaNaDan;
+            decimal skupaj = Zvestoba.IzracunajCeno(stDni, izbran.CenaNaDan, popust);
 
             lblSteviloDni.Text = $"{stDni} {(stDni == 1 ? "dan" : "dni")}";
             lblCenaDan.Text = $"{izbran.CenaNaDan:F2} €";
@@ -175,7 +226,7 @@ namespace CarRental.Obrazci
             return true;
         }
 
-        private void btnShrani_Click(object sender, EventArgs e)
+        private async void btnShrani_Click(object sender, EventArgs e)
         {
             if (!PreveriPolja())
                 return;
@@ -186,7 +237,8 @@ namespace CarRental.Obrazci
                 AvtomobilItem avto = (AvtomobilItem)cmbAvto.SelectedItem;
 
                 int stDni = (dtpDatumDo.Value.Date - dtpDatumOd.Value.Date).Days + 1;
-                decimal skupaj = stDni * avto.CenaNaDan;
+                decimal skupaj = Zvestoba.IzracunajCeno(stDni, avto.CenaNaDan, popust);
+                long novaRezervacijaId;
 
                 using (var povezava = PovezavaBaze.PridobiPovezavo())
                 {
@@ -195,10 +247,10 @@ namespace CarRental.Obrazci
                     // Vstavi rezervacijo
                     string sql1 = @"INSERT INTO rezervacije 
                                    (stranka_id, avtomobil_id, zaposleni_id, 
-                                    datum_od, datum_do, skupna_cena, status)
+                                    datum_od, datum_do, skupna_cena, status, popust)
                                    VALUES 
                                    (@stranka, @avto, @zaposleni, 
-                                    @od, @do, @cena, @status)";
+                                    @od, @do, @cena, @status, @popust)";
 
                     using (var ukaz = new SQLiteCommand(sql1, povezava))
                     {
@@ -210,8 +262,10 @@ namespace CarRental.Obrazci
                         ukaz.Parameters.AddWithValue("@do", dtpDatumDo.Value.ToString("yyyy-MM-dd"));
                         ukaz.Parameters.AddWithValue("@cena", skupaj);
                         ukaz.Parameters.AddWithValue("@status", cmbStatus.SelectedItem.ToString());
+                        ukaz.Parameters.AddWithValue("@popust", popust);
 
                         ukaz.ExecuteNonQuery();
+                        novaRezervacijaId = povezava.LastInsertRowId;
                     }
 
                     // Posodobi status avtomobila na "rezervirano"
@@ -225,6 +279,30 @@ namespace CarRental.Obrazci
 
                 MessageBox.Show($"Rezervacija je bila uspešno ustvarjena!\n\nSkupna cena: {skupaj:F2} €",
                     "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // V3: potrditev po emailu
+                if (EmailPomocnik.JeNastavljen && !string.IsNullOrWhiteSpace(stranka.Email))
+                {
+                    var odgovor = MessageBox.Show($"Ali želite stranki poslati potrditev na {stranka.Email}?",
+                        "Email", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (odgovor == DialogResult.Yes)
+                    {
+                        btnShrani.Enabled = false;
+                        Cursor = Cursors.WaitCursor;
+                        try
+                        {
+                            await EmailPomocnik.PosljiPotrditevAsync((int)novaRezervacijaId);
+                            MessageBox.Show("Potrditev je bila poslana stranki.", "Uspeh",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Pošiljanje ni uspelo: " + ex.GetBaseException().Message, "Napaka",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        Cursor = Cursors.Default;
+                    }
+                }
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
