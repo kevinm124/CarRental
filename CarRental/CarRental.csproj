@@ -197,6 +197,7 @@
     <Compile Include="Obrazci\ServisiObrazec.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pomocniki\DemoPodatki.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Obrazci\AvtomobiliObrazec.resx">

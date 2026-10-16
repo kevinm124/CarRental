@@ -218,6 +218,15 @@ namespace CarRental.Obrazci
             var z = NovZavihek("Splošno");
             numServisDni = Polje(z, "Opozorilo za servis (dni vnaprej)", new NumericUpDown { Minimum = 1, Maximum = 365 }, 25, 20, 200);
             Opis(z, "Tema (svetla/temna) in jezik se preklapljata z gumboma zgoraj desno in veljata za vse uporabnike.", 25, 85);
+
+            // Demo podatki za predstavitev
+            var lblDemo = new Label { Text = "DEMO PODATKI", Location = new Point(25, 150), AutoSize = true, Font = new Font("Segoe UI", 9F, FontStyle.Bold), ForeColor = Color.FromArgb(120, 120, 120) };
+            z.Controls.Add(lblDemo);
+            Opis(z, "Doda 10 avtomobilov, 12 strank, rezervacije zadnjih 12 mesecev, plačila, servise, poškodbe in uporabnika agent. Obstoječi podatki ostanejo.", 25, 172, 680);
+            var btnDemo = UiPomocnik.Gumb("🧪  DODAJ DEMO PODATKE", Tema.Vijolicna, 260, 40);
+            btnDemo.Location = new Point(25, 220);
+            btnDemo.Click += (s, e) => DodajDemoPodatke();
+            z.Controls.Add(btnDemo);
             return z;
         }
 
@@ -296,6 +305,28 @@ namespace CarRental.Obrazci
             catch (Exception ex)
             {
                 Sporocilo.Napaka("Napaka pri shranjevanju: {0}", ex.Message);
+            }
+        }
+
+        private void DodajDemoPodatke()
+        {
+            string vprasanje = DemoPodatki.SoZeDodani
+                ? "Demo podatki so bili že dodani. Če jih dodate še enkrat, bodo rezervacije podvojene.\n\nAli želite vseeno nadaljevati?"
+                : "V bazo bodo dodani demo podatki. Priporočamo, da prej naredite varnostno kopijo.\n\nAli želite nadaljevati?";
+            if (!Sporocilo.Vprasaj(vprasanje))
+                return;
+
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                string rezultat = DemoPodatki.Dodaj();
+                Cursor = Cursors.Default;
+                Sporocilo.Info(rezultat);
+            }
+            catch (Exception ex)
+            {
+                Cursor = Cursors.Default;
+                Sporocilo.Napaka("Napaka pri dodajanju demo podatkov: {0}", ex.Message);
             }
         }
 

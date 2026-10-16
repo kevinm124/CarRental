@@ -479,6 +479,15 @@ namespace CarRental.Pomocniki
             "Datoteka ni veljavna varnostna kopija programa CarRental.", "The file is not a valid CarRental backup.",
             "Baza v varnostni kopiji je poškodovana.", "The database in the backup is corrupted.",
 
+            // Demo podatki
+            "DEMO PODATKI", "DEMO DATA",
+            "Doda 10 avtomobilov, 12 strank, rezervacije zadnjih 12 mesecev, plačila, servise, poškodbe in uporabnika agent. Obstoječi podatki ostanejo.", "Adds 10 cars, 12 customers, reservations for the last 12 months, payments, services, damages and an agent user. Existing data is kept.",
+            "🧪  DODAJ DEMO PODATKE", "🧪  ADD DEMO DATA",
+            "Demo podatki so bili že dodani. Če jih dodate še enkrat, bodo rezervacije podvojene.\n\nAli želite vseeno nadaljevati?", "Demo data has already been added. Adding it again will duplicate the reservations.\n\nDo you want to continue anyway?",
+            "V bazo bodo dodani demo podatki. Priporočamo, da prej naredite varnostno kopijo.\n\nAli želite nadaljevati?", "Demo data will be added to the database. We recommend creating a backup first.\n\nDo you want to continue?",
+            "Napaka pri dodajanju demo podatkov: {0}", "Error adding demo data: {0}",
+            "Dodano: {0} avtomobilov, {1} strank, {2} rezervacij, servisi, poškodbe in uporabnik agent ({3} / {4}).", "Added: {0} cars, {1} customers, {2} reservations, services, damages and an agent user ({3} / {4}).",
+
             // ===== PDF dokumenti =====
             "Račun", "Invoice",
             "RAČUN", "INVOICE",
