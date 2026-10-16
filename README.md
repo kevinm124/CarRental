@@ -55,7 +55,42 @@ After the course I kept working on the project at home and added all the feature
 
 ## Screenshots
 
-*Coming soon.*
+> All data in the screenshots is generated demo data. License plates are blurred.
+
+### Dashboard
+Statistics cards, warning bar (services due, open damages), revenue and reservation charts.
+
+![Dashboard](screenshots/dashboard.png)
+
+### Reservations
+Reservation details with loyalty discount, contract and invoice PDFs, email confirmation and damage reporting.
+
+![Reservations](screenshots/reservations.png)
+
+### Reservation calendar
+Monthly timeline of all cars – active and completed bookings and service days.
+
+![Reservation calendar](screenshots/calendar.png)
+
+### Service & maintenance
+Service history with costs and next-service reminders (*Overdue* / *Due soon*).
+
+![Service and maintenance](screenshots/maintenance.png)
+
+### Vehicle damage
+Damage reports linked to cars and reservations, with severity, estimated cost and photos.
+
+![Vehicle damage](screenshots/damages.png)
+
+### User management
+Admin and agent accounts – activate, deactivate and manage users.
+
+![Users](screenshots/users.png)
+
+### Dark mode – agent account
+Logged in as an *agent*: dark theme, and the admin-only Users and Settings pages are hidden.
+
+![Dark mode as agent](screenshots/dashboard-dark-agent.png)
 
 ## Tech stack
 

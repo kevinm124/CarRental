@@ -49,7 +49,7 @@ namespace CarRental.Pomocniki
             "Koledar rezervacij", "Reservation calendar",
             "Plačila", "Payments",
             "Servisi", "Maintenance",
-            "Servisi in vzdrževanje", "Service & maintenance",
+            "Servisi in vzdrževanje", "Service and maintenance",
             "Poškodbe", "Damages",
             "Poškodbe vozil", "Vehicle damage",
             "Poročila", "Reports",
