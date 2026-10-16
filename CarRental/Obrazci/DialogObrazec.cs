@@ -45,10 +45,11 @@ namespace CarRental.Obrazci
             panelGumbi = new Panel { Dock = DockStyle.Bottom, Height = 70, BackColor = Color.WhiteSmoke };
             btnShrani = UiPomocnik.Gumb("SHRANI", Tema.Modra, 150, 40);
             btnPreklici = UiPomocnik.SiviGumb("PREKLIČI", 130, 40);
-            btnShrani.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnPreklici.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnShrani.Location = new Point(sirina - 170, 15);
-            btnPreklici.Location = new Point(sirina - 310, 15);
+            btnShrani.Top = 15;
+            btnPreklici.Top = 15;
+            // Gumba postavimo ob vsaki spremembi velikosti - širina panela ob ustvarjanju
+            // še ni končna (sidranje desno bi ju sicer potisnilo izven okna)
+            panelGumbi.Layout += (s, e) => PostaviGumba();
             btnShrani.Click += (s, e) => Shrani();
             btnPreklici.Click += (s, e) =>
             {
@@ -72,6 +73,12 @@ namespace CarRental.Obrazci
 
             AcceptButton = null;
             CancelButton = btnPreklici;
+        }
+
+        private void PostaviGumba()
+        {
+            btnShrani.Left = panelGumbi.ClientSize.Width - btnShrani.Width - 20;
+            btnPreklici.Left = btnShrani.Left - btnPreklici.Width - 10;
         }
 
         // Podrazredi tu preverijo polja in shranijo podatke
